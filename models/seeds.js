@@ -98,7 +98,9 @@ db.once('open', async () => {
 
         }, // User 2
 
-    ]) // createdUsers
+    ]); // createdUsers
 
+    console.log('Users:', createdUsers[0].reservations);
+    process.exit( 0 );
 
-}) // db.once
+}); // db.once

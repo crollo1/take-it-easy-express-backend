@@ -16,10 +16,11 @@ const UserSchema = new mongoose.Schema({
     tasksPosted: [
 
         {
-            type: Text,
+            task: Text,
             when: Date,
             maxPrice: String,
-            ref: 'User',
+            ref: 'Task',
+            type: mongoose.Schema.Types.ObjectId
         }
 
     ],
@@ -27,11 +28,13 @@ const UserSchema = new mongoose.Schema({
     tasksUndertaken: [
 
         {
-            type: Text,
+            task: Text,
             completed: Date,
             price: String,
-            ref: 'User',
+            ref: 'Task',
+            type: mongoose.Schema.Types.ObjectId
         }
+
     ],
 
 
