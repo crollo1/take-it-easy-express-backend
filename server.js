@@ -56,7 +56,7 @@ app.get('/categories', async (req, res) => {
 
     try{
 
-        const categories = await User.find();
+        const categories = await Category.find();
         res.json( categories );
 
     } catch( err ){
@@ -73,7 +73,7 @@ app.get('/tasks', async (req, res) => {
 
     try{
 
-        const tasks = await User.find();
+        const tasks = await Task.find();
         res.json( tasks );
 
     } catch( err ){
@@ -90,7 +90,7 @@ app.post('/becomeHelper', async (req, res) => {
 
     try{
 
-        const becomeHelper = await User.find();
+        const becomeHelper = await becomeHelper.find();
         res.json( becomeHelper );
 
     } catch( err ){

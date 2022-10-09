@@ -32,7 +32,7 @@ db.once('open', async () => {
             tasksPosted: [
 
                 {
-                    type: 'In need of someone to screw in a few lightbulbs',
+                    type: 'In need of someone to walk my cute dog Scout',
                     when: 14-10-2022,
                     maxPrice: '$50',
                 },
