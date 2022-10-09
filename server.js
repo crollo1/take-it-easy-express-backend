@@ -86,7 +86,7 @@ app.get('/tasks', async (req, res) => {
 }); // '/tasks'
 
 
-app.post('/becomeHelper', async (req, res) => {
+app.post('/worker', async (req, res) => {
 
     try{
 
