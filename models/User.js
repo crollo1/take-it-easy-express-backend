@@ -15,13 +15,9 @@ const UserSchema = new mongoose.Schema({
 
     tasksPosted: [
 
-        {
-            taskPosted: {
-                
-                ref: 'Task',
-                type: mongoose.Schema.Types.ObjectId
-
-            },
+        {     
+            ref: 'Tasks',
+            type: mongoose.Schema.Types.ObjectId
         }
 
     ],
@@ -29,11 +25,8 @@ const UserSchema = new mongoose.Schema({
     tasksUndertaken: [
 
         {
-            taskUndertaken: {
-
-                ref: 'Task',
-                type: mongoose.Schema.Types.ObjectId
-            },
+            ref: 'Tasks',
+            type: mongoose.Schema.Types.ObjectId
         }
 
     ],

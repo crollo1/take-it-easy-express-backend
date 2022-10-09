@@ -20,9 +20,20 @@ app.listen(PORT, () => {
 // ******************* Mongoose DB initialisation ******************** //
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1');
 const User = require('./models/User'); // User model
+const Tasks = require('./models/Task'); // Tasks model
+const Categories = require('./models/Categories'); // Categories model
+const Workers = require('./models/Workers'); // Workers model
+
+mongoose.connect('mongodb://127.0.0.1');
+
 const db = mongoose.connection
+db.on('error', err => {
+    console.log('Error connecting to DB server', err);
+    process.exit( 1 ); 
+});
+
+
 
 
 // *** T.I.E API routes *** //
@@ -30,12 +41,12 @@ const db = mongoose.connection
 app.get('/', (req, res) => {
 
     console.log('home route requested');
-    res.json( Home );
+    res.json( );
 
 }); // '/'
 
 
-app.get('/user/:id', async (req, res) => {
+app.get('/user', async (req, res) => {
 
     try{
 
@@ -56,7 +67,7 @@ app.get('/categories', async (req, res) => {
 
     try{
 
-        const categories = await Category.find();
+        const categories = await Categories.find();
         res.json( categories );
 
     } catch( err ){
@@ -73,7 +84,7 @@ app.get('/tasks', async (req, res) => {
 
     try{
 
-        const tasks = await Task.find();
+        const tasks = await Tasks.find();
         res.json( tasks );
 
     } catch( err ){
@@ -90,8 +101,8 @@ app.post('/worker', async (req, res) => {
 
     try{
 
-        const becomeHelper = await becomeHelper.find();
-        res.json( becomeHelper );
+        const worker = await Workers.find();
+        res.json( worker );
 
     } catch( err ){
 
