@@ -17,13 +17,13 @@ app.listen(PORT, () => {
 });
 
 
-// ******************* Mongoose DB initialisation ******************** //
+// ************* Mongoose DB initialisation ************* //
 
 const mongoose = require('mongoose');
 const User = require('./models/User'); // User model
-const Tasks = require('./models/Task'); // Tasks model
-const Categories = require('./models/Category'); // Categories model
-const Workers = require('./models/Worker'); // Workers model
+const Task = require('./models/Task'); // Tasks model
+const Category = require('./models/Category'); // Categories model
+const Worker = require('./models/Worker'); // Workers model
 
 mongoose.connect('mongodb://127.0.0.1');
 
@@ -35,8 +35,36 @@ db.on('error', err => {
 
 
 
+// * Authentication ==================================
 
-// *** T.I.E API routes *** //
+const bcrypt = require('bcrypt'); 
+const jwt = require('jsonwebtoken'); 
+const jwtAuthenticate = require('express-jwt');
+
+const checkAuth = () => {
+
+    return jwtAuthenticate.expressjwt({ 
+
+        secret: SERVER_SECRET_KEY, // check token hasn't been tampered with
+        algorithms: ['HS256'],
+        requestProperty: 'auth' // gives us 'req.auth'
+    });
+
+}; // checkAuth
+
+// TODO: This should be in a .env file which is not committed to this repo ( because it's mentioned in your .gitignore ), and loaded from the shell environment using an NPM package like 'dotenv' - other sensitive data such as API access keys should also be stored this way. 
+
+const SERVER_SECRET_KEY = 'yourSecretKeyHereCHICKEN';
+// 
+// bcrypt - encrypt plain text passwords, verify correct password
+//
+// jwt - create tokens to send to frontend, encoding user ID in tamper proof format
+//
+// express-jwt - 'Express' middleware, like plugin that Express can use to provide extra info to route handler callbacks ( attaching something to first 'req' argument, returning req.auth) - like 'knock' gem in Rails
+
+
+
+// ********** T-I-E API routes ********** //
 
 app.get('/', (req, res) => {
 
@@ -112,5 +140,103 @@ app.post('/worker', async (req, res) => {
     }
 
 }); // '/worker'
+
+
+// Login route
+app.post('/login', async (req, res) => {
+
+    console.log('login:', req.body);
+    // res.json( req.body ); // just for debugging
+
+    const { email, password} = req.body;
+
+    try {
+
+        const user = await User.findOne({ email }); // { email: email }
+
+        if( user && bcrypt.compareSync( password, user.passwordDigest) ){
+            // correct credentials
+            // res.json({ success: true })
+
+            const token = jwt.sign(
+                // the data to encode in the 'payload':
+                { _id: user._id },
+                // the secret key to use to encrypt the token - only the server can modify - i.e. users can't change their user ID
+                SERVER_SECRET_KEY,
+                // expiry date:
+                { expiresIn: '72h' } // 3 Days
+            );
+
+            res.json({ token }); // TODO: why not include the user object in this response to save you at least one call to the  /current_user API endpoint
+
+        } else {
+            // incorrect credentials: user not found or passwords don't match
+            res.status( 401 ).json({ success: false }); // Unauthorized
+        }
+
+    } catch( err ){
+        res.sendStatus( 500 ); // low-level (DB) error
+        console.log('Error verifying login:', err);
+    }
+
+}); // POST login
+
+
+// ** Routes below this line only work for authenticated users - move the required ones under here.
+
+app.use( checkAuth() ); // provide req.auth (the User ID from token) to all following routes
+
+// Custom middleware, defined inline:
+// Use the req.auth ID from the middleware above and try to look up a user with it - 
+// if found, attach to req.current_user for all the requests that follow this;
+// if not found, return an error code
+
+app.use( async (req, res, next) => {
+
+    try {
+        const user = await User.findOne({ _id: req.auth._id })
+
+        if( user === null ){
+            res.sendStatus( 401 ); // invalid/stale token
+            // by running a res method here, this middleware will not
+            // allow any further routes to be handled below it
+        } else {
+            req.current_user = user; // add 'current_user' for the next route to access
+            next(); // move on to the next route handler in this server
+        }
+
+    } catch( err ){
+        console.log('Error querying User in auth', err);
+        res.sendStatus( 500 );
+    } 
+
+});
+
+
+// All routes below now have a 'req.current_user defined
+
+app.get('/current_user', (req, res) => {
+    res.json( req.current_user );
+});
+
+
+// EXAMPLE
+// app.get('/seekrits', (req, res) => {
+
+//     if( req.current_user.admin === true ){
+
+//     }
+
+//     res.json({
+//         secret: 'I am an alien',
+//         name: req.current_user.name
+//     })
+// });
+
+
+
+
+
+
 
 
