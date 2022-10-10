@@ -18,7 +18,8 @@ const TaskSchema = new mongoose.Schema({
     area: String,
     address: String,
     postedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
-    allocatedTo: {type: mongoose.Schema.Types.ObjectId, ref: 'Worker'},
+    allocatedTo: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+    status: String,
 
 }); // TasksSchema
 
