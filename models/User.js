@@ -7,28 +7,22 @@ const UserSchema = new mongoose.Schema({
     email: String,
     passwordDigest: String,
     createdAt: {
-
         type: Date,
         default: Date.now // auto default field to current date
-
     },
 
     tasksPosted: [
-
         {     
             ref: 'Tasks',
             type: mongoose.Schema.Types.ObjectId
         }
-
     ],
 
     tasksUndertaken: [
-
         {
             ref: 'Tasks',
             type: mongoose.Schema.Types.ObjectId
         }
-
     ],
 
 

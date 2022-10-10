@@ -22,8 +22,8 @@ app.listen(PORT, () => {
 const mongoose = require('mongoose');
 const User = require('./models/User'); // User model
 const Tasks = require('./models/Task'); // Tasks model
-const Categories = require('./models/Categories'); // Categories model
-const Workers = require('./models/Workers'); // Workers model
+const Categories = require('./models/Category'); // Categories model
+const Workers = require('./models/Worker'); // Workers model
 
 mongoose.connect('mongodb://127.0.0.1');
 
@@ -46,12 +46,12 @@ app.get('/', (req, res) => {
 }); // '/'
 
 
-app.get('/user', async (req, res) => {
+app.get('/users', async (req, res) => {
 
     try{
 
-        const user = await User.find();
-        res.json( user );
+        const users = await User.find();
+        res.json( users );
 
     } catch( err ){
 
@@ -67,7 +67,7 @@ app.get('/categories', async (req, res) => {
 
     try{
 
-        const categories = await Categories.find();
+        const categories = await Category.find();
         res.json( categories );
 
     } catch( err ){
@@ -84,7 +84,7 @@ app.get('/tasks', async (req, res) => {
 
     try{
 
-        const tasks = await Tasks.find();
+        const tasks = await Task.find();
         res.json( tasks );
 
     } catch( err ){
@@ -101,16 +101,16 @@ app.post('/worker', async (req, res) => {
 
     try{
 
-        const worker = await Workers.find();
+        const worker = await Worker.find();
         res.json( worker );
 
     } catch( err ){
 
-        console.error('Error loading becomeHelper:', err);
+        console.error('Error loading worker:', err);
         res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
 
     }
 
-}); // '/becomeHelper'
+}); // '/worker'
 
 

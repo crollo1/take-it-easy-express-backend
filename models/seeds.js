@@ -1,6 +1,8 @@
 
 // const mongo = require('mongodb');
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
 const User = require('./User');
 const Task = require('./Task')
 
@@ -55,7 +57,7 @@ db.once('open', async () => {
             endDate: new Date('2022-10-16T04:20:00Z'),
             completedDate: new Date('2022-10-15T04:20:00Z'),
             summaryDescription: 'In need of a great caterer for my expensive friends',
-            fullDescription: 'Throwing an end of Uni celebration and my friends have expensive tastes - think caviar and lobster. If you have some mad catering skills with food that slap hard, please let me know',
+            fullDescription: 'Throwing an end of Uni celebration and my friends have expensive tastes - think caviar and lobster. If you have some mad catering skills with food that slaps hard, please let me know',
             price: 500,
             area: 'Sunshine Coast',
             location: 'Noosa',
@@ -81,100 +83,33 @@ db.once('open', async () => {
     console.log('Task:', createdTasks);
 
     // // USER SEEDS
-    // await User.deleteMany(); // User.destroy_all
+    await User.deleteMany(); // User.destroy_all
 
-    // const createdUsers = await User.create([
+    const createdUsers = await User.create([
 
-    //     {
-    //         name: 'Luke',
-    //         email: 'luke@ga.co',
-    //         // passwordDigest: String, // use bcrypt...?
+        {
+            name: 'Luke',
+            email: 'luke@ga.co',
+            passwordDigest: bcrypt.hashSync('chicken', 10), // "number of rounds to use when generating a salt", "cost factor"
            
-    //         tasksPosted: [
+            tasksPosted: [ createdTasks[0], createdTasks[1] ],
+            tasksUndertaken: [ createdTasks[2], createdTasks[3]],
 
-    //             {
-    //                 taskPosted: {
-    //                     task: 'In need of someone to walk my cute dog Scout',
-    //                     when: new Date('2022-11-23T04:20:00Z'),
-    //                     maxPrice: '$50',
-    //                 },
-                
-    //                 taskPosted: {
-    //                     task: 'Martinis need mixin',
-    //                     when: new Date('2022-11-19T04:20:00Z'),
-    //                     maxPrice: '$200',
-    //                 }
-    //             }
+        }, // User 1
 
-
-    //         ],
-
-    //         tasksUndertaken: [
-
-    //             {
-    //                 taskUndertaken: {
-    //                     task: 'Excellent guitarist',
-    //                     completed: new Date('2021-11-23T04:20:00Z'),
-    //                     price: '$80-100', 
-    //                 },
-                    
-    //                 taskUndertaken: {
-    //                     task: 'Can teach coding',
-    //                     completed: new Date('2020-11-23T04:20:00Z'),
-    //                     price: '$50000', 
-    //                 },
-    //             }
-
-    //         ],
-
-    //     }, // User 1
-
-    //     {
-    //         name: 'Kris',
-    //         email: 'kris@ga.co',
-    //         // passwordDigest: String, // use bcrypt...?
+        {
+            name: 'Kris',
+            email: 'kris@ga.co',
+            passwordDigest: bcrypt.hashSync('chicken', 10), // use bcrypt
            
-    //         tasksPosted: [
+            tasksPosted: [ createdTasks[2], createdTasks[3] ],
+            tasksUndertaken: [ createdTasks[0], createdTasks[1] ],
+            
+        }, // User 2
 
-    //             {
-    //                 taskPosted: {
-    //                     task: 'In need of a great caterer for my expensive friends',
-    //                     when: new Date('2022-11-24T04:20:00Z'),
-    //                     maxPrice: '$500',
-    //                 },
-                
-    //                 taskPosted: {
-    //                     task: 'Pool cleaning required post party',
-    //                     when: new Date('2022-11-15T04:20:00Z'),
-    //                     maxPrice: '$100',
-    //                 },
-    //             }
+    ]); // createdUser
 
-    //         ],
-
-    //         tasksUndertaken: [
-
-    //             {
-    //                 taskUndertaken: {
-    //                     task: 'Shoe horn lessons',
-    //                     completed: new Date('2021-11-23T04:20:00Z'),
-    //                     price: '$20',
-    //                 }, 
-                    
-    //                 taskUndertaken: {
-    //                     task: 'Web App for your business',
-    //                     completed: new Date('2019-11-23T04:20:00Z'),
-    //                     price: '$25000',
-    //                 }, 
-    //             }
-
-    //         ],
-
-    //     }, // User 2
-
-    // ]); // createdUser
-
-    // console.log('User:', createdUsers);
+    console.log('User:', createdUsers);
     process.exit( 0 );
 
 }); // db.once
