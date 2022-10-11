@@ -78,6 +78,32 @@ db.once('open', async () => {
             address: '123 Sydney Rd',
         },
 
+        {
+            name: 'Driver needed',
+            startDate: new Date('2022-10-16T04:20:00Z'),
+            endDate: new Date('2022-10-17T04:20:00Z'),
+            completedDate: new Date('2022-10-17T04:20:00Z'),
+            summaryDescription: 'Driver needed to transport me for work',
+            fullDescription: 'I am in the area for business for the week, and need a driver to get me where I need to go',
+            price: 1200,
+            area: 'Perth',
+            location: 'Fremantle',
+            address: '85 Beach Ave',
+        },
+
+        {
+            name: 'Accounting',
+            startDate: new Date('2022-10-16T04:20:00Z'),
+            endDate: new Date('2022-10-17T04:20:00Z'),
+            completedDate: new Date('2022-10-17T04:20:00Z'),
+            summaryDescription: 'Budget/Finance planning',
+            fullDescription: 'I am aiming to save up for my first property, and need to adjust some expenses and priorities to achieve my goal',
+            price: 250,
+            area: 'Gold Coast',
+            location: 'Main Beach',
+            address: '1 Tedder Ave',
+        },
+
 
     ]); // createdTasks
 
@@ -108,9 +134,31 @@ db.once('open', async () => {
             
         }, // User 2
 
+        {
+            name: 'Ali',
+            email: 'ali@ga.co',
+            passwordDigest: bcrypt.hashSync('chicken', 10), // use bcrypt
+           
+            tasksPosted: [ createdTasks[4] ],
+            tasksUndertaken: [ createdTasks[5] ],
+            
+        }, // User 3
+
     ]); // createdUser
 
     console.log('User:', createdUsers);
+
+
+    // await Category.deleteMany(); // Category.destroy_all
+
+    // const createdCategories = await Category.create([
+
+
+    // ]); // createdCategory
+    // console.log('Category:', createdCategories);
+
+
+
     process.exit( 0 );
 
 }); // db.once

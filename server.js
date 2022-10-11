@@ -215,7 +215,12 @@ app.use( async (req, res, next) => {
 // All routes below now have a 'req.current_user defined
 
 app.get('/current_user', (req, res) => {
-    res.json( req.current_user );
+    // console.log(req.current_user);
+    res.json({
+        name: req.current_user.name,
+        email: req.current_user.email,
+        _id: req.current_user._id,
+    });
 });
 
 
