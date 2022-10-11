@@ -24,8 +24,9 @@ const User = require('./models/User'); // User model
 const Task = require('./models/Task'); // Tasks model
 const Category = require('./models/Category'); // Categories model
 const Worker = require('./models/Worker'); // Workers model
+require('dotenv').config();
 
-mongoose.connect('mongodb://127.0.0.1');
+mongoose.connect(process.env.MONGODB_CLOUD_URL);
 
 const db = mongoose.connection
 db.on('error', err => {
@@ -52,9 +53,7 @@ const checkAuth = () => {
 
 }; // checkAuth
 
-// TODO: This should be in a .env file which is not committed to this repo ( because it's mentioned in your .gitignore ), and loaded from the shell environment using an NPM package like 'dotenv' - other sensitive data such as API access keys should also be stored this way. 
-
-const SERVER_SECRET_KEY = 'yourSecretKeyHereCHICKEN';
+const SERVER_SECRET_KEY = process.env.SERVER_SECRET_KEY;
 // 
 // bcrypt - encrypt plain text passwords, verify correct password
 //

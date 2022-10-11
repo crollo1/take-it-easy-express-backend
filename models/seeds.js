@@ -4,9 +4,12 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
 const User = require('./User');
-const Task = require('./Task')
+const Task = require('./Task');
+require('dotenv').config();
 
-mongoose.connect('mongodb://127.0.0.1/');
+
+// 7agwTtCUw0N4suzm
+mongoose.connect(process.env.MONGODB_CLOUD_URL);
 const db = mongoose.connection;
 
 
