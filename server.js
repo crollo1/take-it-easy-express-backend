@@ -23,7 +23,7 @@ const mongoose = require('mongoose');
 const User = require('./models/User'); // User model
 const Task = require('./models/Task'); // Tasks model
 const Category = require('./models/Category'); // Categories model
-const Worker = require('./models/Worker'); // Workers model
+// const Worker = require('./models/Worker'); // Workers model
 require('dotenv').config();
 
 mongoose.connect(process.env.MONGODB_CLOUD_URL);
@@ -124,21 +124,21 @@ app.get('/tasks', async (req, res) => {
 }); // '/tasks'
 
 
-app.post('/worker', async (req, res) => {
+// app.post('/worker', async (req, res) => {
 
-    try{
+//     try{
 
-        const worker = await Worker.find();
-        res.json( worker );
+//         const worker = await Worker.find();
+//         res.json( worker );
 
-    } catch( err ){
+//     } catch( err ){
 
-        console.error('Error loading worker:', err);
-        res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
+//         console.error('Error loading worker:', err);
+//         res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
 
-    }
+//     }
 
-}); // '/worker'
+// }); // '/worker'
 
 
 // Login route

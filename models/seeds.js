@@ -7,8 +7,6 @@ const User = require('./User');
 const Task = require('./Task');
 require('dotenv').config();
 
-
-// 7agwTtCUw0N4suzm
 mongoose.connect(process.env.MONGODB_CLOUD_URL);
 const db = mongoose.connection;
 
