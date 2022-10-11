@@ -68,7 +68,7 @@ const SERVER_SECRET_KEY = process.env.SERVER_SECRET_KEY;
 app.get('/', (req, res) => {
 
     console.log('home route requested');
-    res.json( );
+    res.json( [1,2,3]);
 
 }); // '/'
 
@@ -232,20 +232,19 @@ app.post('/postTask', async (req, res) => {
     console.log('postTask:', req.body);
     // res.json( req.body ); // just for debugging
 
-    const newUser = new User({
+    const newTask = new Task({
 
         name: req.body.name,
-        email: req.body.email,
-        passwordDigest: bcrypt.hashSync(req.body.password, 10),
+        date: req.body.date,
 
     });
-    // const { name, email, password} = req.body;
+    // const { name, date} = req.body;
 
     try {
 
         // const user = await User.create({ name, email, password }); // { email: email }
-        const savedUser = await newUser.save();
-        console.log('saved users', savedUser);
+        const savedTask = await newTask.save();
+        console.log('saved tasks', savedTask);
         // if( savedUser && bcrypt.compareSync( password, user.passwordDigest) ){
         // correct credentials
         // res.json({ success: true })
@@ -253,14 +252,14 @@ app.post('/postTask', async (req, res) => {
         const token = jwt.sign(
 
             // the data to encode in the 'payload':
-            { _id: savedUser._id },
+            { _id: savedTask._id },
             // the secret key to use to encrypt the token - only the server can modify - i.e. users can't change their user ID
             SERVER_SECRET_KEY,
             // expiry date:
             { expiresIn: '72h' } // 3 Days
         );
 
-        res.json({ token, savedUser }); 
+        res.json({ token, savedTask }); 
 
     } catch( err ){
 
@@ -268,7 +267,7 @@ app.post('/postTask', async (req, res) => {
             console.log('Error signing up:', err);
     }
 
-}); // POST signup
+}); // POST task
 
 
 // ** Routes below this line only work for authenticated users - move the required ones under here.
