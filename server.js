@@ -68,7 +68,7 @@ const SERVER_SECRET_KEY = process.env.SERVER_SECRET_KEY;
 app.get('/', (req, res) => {
 
     console.log('home route requested');
-    res.json( [1,2,3]);
+    res.json( {hello: 'TEST to see if connected'} );
 
 }); // '/'
 
@@ -235,7 +235,17 @@ app.post('/postTask', async (req, res) => {
     const newTask = new Task({
 
         name: req.body.name,
-        date: req.body.date,
+        startDate: req.body.startDate,
+        endDate: req.body.endDate,
+        completedDate: req.body.completedDate,
+        summaryDescription: req.body.summaryDescription,
+        fullDescription: req.body.fullDescription,
+        price: req.body.price,
+        location: req.body.location,
+        area: req.body.area,
+        address: req.body.address,
+        // postedBy: ,
+        status: req.body.status,
 
     });
     // const { name, date} = req.body;
