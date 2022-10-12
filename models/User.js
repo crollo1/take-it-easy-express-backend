@@ -6,6 +6,7 @@ const UserSchema = new mongoose.Schema({
     name: String,
     email: String,
     passwordDigest: String,
+    // isTasker: Boolean,
     createdAt: {
         type: Date,
         default: Date.now // auto default field to current date
