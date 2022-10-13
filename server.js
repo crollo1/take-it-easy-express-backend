@@ -267,12 +267,32 @@ app.get('/users', async (req, res) => {
 
 }); // '/user'
 
-app.get('/task/:id', async (req, res) => {
+app.post('/task', async (req, res) => {
 
     try{
 
-        const task = await Task.find();
-        res.json( task );
+        const task = await Task.updateOne(
+            
+            { _id: req.body._id },
+            {
+                $set:
+                {
+                    name: req.body.name,
+                    startDate: req.body.startDate,
+                    endDate: req.body.endDate,
+                    completedDate: req.body.completedDate,
+                    summaryDescription: req.body.summaryDescription,
+                    fullDescription: req.body.fullDescription,
+                    price: req.body.price,
+                    location: req.body.location,
+                    area: req.body.area,
+                    address: req.body.address,
+                    postedBy: req.current_user,
+                    // allocatedTo: req.current_user, <-- use when a user accepts to undertake a task
+                    status: req.body.status,
+                }
+            },
+        );
 
     } catch( err ){
 
