@@ -37,6 +37,7 @@ db.once('open', async () => {
             area: 'Sydney',
             location: 'Dee Why',
             address: '123 Brisbane St',
+            // postedBy: ,
         },
 
         {
@@ -109,7 +110,7 @@ db.once('open', async () => {
 
     console.log('Task:', createdTasks);
 
-    // // USER SEEDS
+    // USER SEEDS
     await User.deleteMany(); // User.destroy_all
 
     const createdUsers = await User.create([

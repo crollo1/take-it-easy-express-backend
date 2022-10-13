@@ -285,7 +285,7 @@ app.post('/postTask', async (req, res) => {
         location: req.body.location,
         area: req.body.area,
         address: req.body.address,
-        // postedBy: ,
+        postedBy: req.body.postedBy,
         status: req.body.status,
 
     });
