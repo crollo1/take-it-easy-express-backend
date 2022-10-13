@@ -106,6 +106,22 @@ app.get('/tasks', async (req, res) => {
 
 }); // '/tasks'
 
+app.get('/tasks/:id', async (req, res) => {
+
+    try{
+
+        const task = await Task.findOne({_id: req.params.id});
+        res.json( task );
+
+    } catch( err ){
+
+        console.error('Error loading task:', err);
+        res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
+
+    }
+
+}); // '/tasks'
+
 
 // app.post('/worker', async (req, res) => {
 
@@ -267,7 +283,7 @@ app.get('/users', async (req, res) => {
 
 }); // '/user'
 
-app.post('/task', async (req, res) => {
+app.post('/tasks/:id', async (req, res) => {
 
     try{
 
@@ -289,7 +305,11 @@ app.post('/task', async (req, res) => {
                     address: req.body.address,
                     postedBy: req.current_user,
                     // allocatedTo: req.current_user, <-- use when a user accepts to undertake a task
-                    status: req.body.status,
+                    status: req.body.status,gpsLocation: {
+                        type: 'Point', 
+                        coordinates: [151.2897453839399, -33.751579477531436]
+                        
+                    }
                 }
             },
         );

@@ -56,6 +56,11 @@ db.once('open', async () => {
             area: 'Melbourne',
             location: 'Balwin',
             address: '45 Posh St',
+            gpsLocation: {
+                type: 'Point', 
+                coordinates: [152.2897453839399, -32.751579477531436]
+                
+            }
         },
 
         {
@@ -69,6 +74,11 @@ db.once('open', async () => {
             area: 'Sunshine Coast',
             location: 'Noosa',
             address: '98 Sunrise Ave',
+            gpsLocation: {
+                type: 'Point', 
+                coordinates: [153.2897453839399, -34.751579477531436]
+                
+            }
         },
 
         {
@@ -82,6 +92,11 @@ db.once('open', async () => {
             area: 'Brisbane',
             location: 'New Farm',
             address: '123 Sydney Rd',
+            gpsLocation: {
+                type: 'Point', 
+                coordinates: [150.2897453839399, -33.751579477531436]
+                
+            }
         },
 
         {
@@ -95,6 +110,11 @@ db.once('open', async () => {
             area: 'Perth',
             location: 'Fremantle',
             address: '85 Beach Ave',
+            gpsLocation: {
+                type: 'Point', 
+                coordinates: [151.2897453839399, -34.751579477531436]
+                
+            }
         },
 
         {
@@ -108,6 +128,11 @@ db.once('open', async () => {
             area: 'Gold Coast',
             location: 'Main Beach',
             address: '1 Tedder Ave',
+            gpsLocation: {
+                type: 'Point', 
+                coordinates: [151.2897453839399, -35.751579477531436]
+                
+            }
         },
 
 
