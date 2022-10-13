@@ -267,6 +267,21 @@ app.get('/users', async (req, res) => {
 
 }); // '/user'
 
+app.get('/task/:id', async (req, res) => {
+
+    try{
+
+        const task = await Task.find();
+        res.json( task );
+
+    } catch( err ){
+
+        console.error('Error loading task:', err);
+        res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
+
+    }
+}); // /task:id
+
 // PostTask route
 app.post('/postTask', async (req, res) => {
 
@@ -285,7 +300,8 @@ app.post('/postTask', async (req, res) => {
         location: req.body.location,
         area: req.body.area,
         address: req.body.address,
-        postedBy: req.body.postedBy,
+        postedBy: req.current_user,
+        // allocatedTo: req.current_user, <-- use when a user accepts to undertake a task
         status: req.body.status,
 
     });
