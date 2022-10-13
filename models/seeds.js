@@ -37,7 +37,12 @@ db.once('open', async () => {
             area: 'Sydney',
             location: 'Dee Why',
             address: '123 Brisbane St',
-            // postedBy: ,
+            gpsLocation: {
+                type: 'Point', 
+                coordinates: [151.2897453839399, -33.751579477531436]
+                
+            }
+         
         },
 
         {
