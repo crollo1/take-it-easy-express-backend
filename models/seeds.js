@@ -155,13 +155,67 @@ db.once('open', async () => {
     console.log('User:', createdUsers);
 
 
-    // await Category.deleteMany(); // Category.destroy_all
+    const updateTasks0 = await Task.updateOne(
 
-    // const createdCategories = await Category.create([
+        { _id: createdTasks[0]._id}, // <-- "63451a914c7af7183285d318" this is an _id of a task
 
+        // below we are trying to 'set' the 'postedBy' field with the user who has created the task
+        // We can't give hardcoded strings, as every time we see this it will have a new _id
+        {
+            $set: { postedBy: createdUsers[0]._id }
+        },
 
-    // ]); // createdCategory
-    // console.log('Category:', createdCategories);
+    );
+
+    const updateTasks1 = await Task.updateOne(
+
+        { _id: createdTasks[1]._id}, 
+
+        {
+            $set: { postedBy: createdUsers[0]._id }
+        },
+
+    );
+
+    const updateTasks2 = await Task.updateOne(
+
+        { _id: createdTasks[2]._id}, 
+         
+        {
+            $set: { postedBy: createdUsers[1]._id }
+        },
+
+    );
+
+    const updateTasks3 = await Task.updateOne(
+
+        { _id: createdTasks[3]._id}, 
+         
+        {
+            $set: { postedBy: createdUsers[1]._id }
+        },
+
+    );
+
+    const updateTasks4 = await Task.updateOne(
+
+        { _id: createdTasks[4]._id}, 
+         
+        {
+            $set: { postedBy: createdUsers[2]._id }
+        },
+
+    );
+
+    const updateTasks5 = await Task.updateOne(
+
+        { _id: createdTasks[5]._id}, 
+         
+        {
+            $set: { postedBy: createdUsers[2]._id }
+        },
+
+    );
 
 
 
