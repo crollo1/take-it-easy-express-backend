@@ -73,23 +73,6 @@ app.get('/', (req, res) => {
 }); // '/'
 
 
-app.get('/users', async (req, res) => {
-
-    try{
-
-        const users = await User.find();
-        res.json( users );
-
-    } catch( err ){
-
-        console.error('Error loading user:', err);
-        res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
-
-    }
-
-}); // '/user'
-
-
 app.get('/categories', async (req, res) => {
 
     try{
@@ -226,6 +209,64 @@ app.post('/signup', async (req, res) => {
 }); // POST signup
 
 
+// ** Routes below this line only work for authenticated users - move the required ones under here.
+
+app.use( checkAuth() ); // provide req.auth (the User ID from token) to all following routes
+
+// Custom middleware, defined inline:
+// Use the req.auth ID from the middleware above and try to look up a user with it - 
+// if found, attach to req.current_user for all the requests that follow this;
+// if not found, return an error code
+
+app.use( async (req, res, next) => {
+
+    try {
+        const user = await User.findOne({ _id: req.auth._id })
+
+        if( user === null ){
+            res.sendStatus( 401 ); // invalid/stale token
+            // by running a res method here, this middleware will not
+            // allow any further routes to be handled below it
+        } else {
+            req.current_user = user; // add 'current_user' for the next route to access
+            next(); // move on to the next route handler in this server
+        }
+
+    } catch( err ){
+        console.log('Error querying User in auth', err);
+        res.sendStatus( 500 );
+    } 
+
+});
+
+
+// All routes below now have a 'req.current_user defined
+
+app.get('/current_user', (req, res) => {
+    // console.log(req.current_user);
+    res.json({
+        name: req.current_user.name,
+        email: req.current_user.email,
+        _id: req.current_user._id,
+    });
+});
+
+app.get('/users', async (req, res) => {
+
+    try{
+
+        const users = await User.find();
+        res.json( users );
+
+    } catch( err ){
+
+        console.error('Error loading user:', err);
+        res.status( 422 ).json({ error: 'Db connection error' }); // 'Unprocessable entity' - trigger frontend axios catch()
+
+    }
+
+}); // '/user'
+
 // PostTask route
 app.post('/postTask', async (req, res) => {
 
@@ -278,50 +319,6 @@ app.post('/postTask', async (req, res) => {
     }
 
 }); // POST task
-
-
-// ** Routes below this line only work for authenticated users - move the required ones under here.
-
-app.use( checkAuth() ); // provide req.auth (the User ID from token) to all following routes
-
-// Custom middleware, defined inline:
-// Use the req.auth ID from the middleware above and try to look up a user with it - 
-// if found, attach to req.current_user for all the requests that follow this;
-// if not found, return an error code
-
-app.use( async (req, res, next) => {
-
-    try {
-        const user = await User.findOne({ _id: req.auth._id })
-
-        if( user === null ){
-            res.sendStatus( 401 ); // invalid/stale token
-            // by running a res method here, this middleware will not
-            // allow any further routes to be handled below it
-        } else {
-            req.current_user = user; // add 'current_user' for the next route to access
-            next(); // move on to the next route handler in this server
-        }
-
-    } catch( err ){
-        console.log('Error querying User in auth', err);
-        res.sendStatus( 500 );
-    } 
-
-});
-
-
-// All routes below now have a 'req.current_user defined
-
-app.get('/current_user', (req, res) => {
-    // console.log(req.current_user);
-    res.json({
-        name: req.current_user.name,
-        email: req.current_user.email,
-        _id: req.current_user._id,
-    });
-});
-
 
 // EXAMPLE
 // app.get('/seekrits', (req, res) => {
