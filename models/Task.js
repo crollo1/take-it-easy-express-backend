@@ -20,7 +20,11 @@ const TaskSchema = new mongoose.Schema({
     postedBy: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     allocatedTo: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     status: String,
+    gpsLocation: {
+        type: { type: String },
+        coordinates: [Number]
+    }
 
 }); // TasksSchema
-
+TaskSchema.index({ "gpsLocation": "2dsphere" });
 module.exports = mongoose.model( 'Task', TaskSchema );
