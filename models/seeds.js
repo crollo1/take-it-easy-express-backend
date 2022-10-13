@@ -58,9 +58,9 @@ db.once('open', async () => {
             address: '45 Posh St',
             gpsLocation: {
                 type: 'Point', 
-                coordinates: [152.2897453839399, -32.751579477531436]
+                coordinates: [151.24144067220877, -33.98176987124649]
                 
-            }
+            } 
         },
 
         {
@@ -76,8 +76,7 @@ db.once('open', async () => {
             address: '98 Sunrise Ave',
             gpsLocation: {
                 type: 'Point', 
-                coordinates: [153.2897453839399, -34.751579477531436]
-                
+                coordinates: [151.28642008151704, -33.79723715378059] 
             }
         },
 
@@ -94,9 +93,9 @@ db.once('open', async () => {
             address: '123 Sydney Rd',
             gpsLocation: {
                 type: 'Point', 
-                coordinates: [150.2897453839399, -33.751579477531436]
+                coordinates: [151.17903668174225, -33.796725690340075]
                 
-            }
+            }, 
         },
 
         {
@@ -112,8 +111,7 @@ db.once('open', async () => {
             address: '85 Beach Ave',
             gpsLocation: {
                 type: 'Point', 
-                coordinates: [151.2897453839399, -34.751579477531436]
-                
+                coordinates: [151.20821636258617, -33.88577937487742]
             }
         },
 
@@ -130,9 +128,9 @@ db.once('open', async () => {
             address: '1 Tedder Ave',
             gpsLocation: {
                 type: 'Point', 
-                coordinates: [151.2897453839399, -35.751579477531436]
+                coordinates: [151.25747616918167, -33.913759459412844]
                 
-            }
+            } 
         },
 
 
