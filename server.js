@@ -170,6 +170,7 @@ app.post('/login', async (req, res) => {
         } else {
             // incorrect credentials: user not found or passwords don't match
             res.status( 401 ).json({ success: false }); // Unauthorized
+            console.error('error logging in', req.body);
         }
 
     } catch( err ){
@@ -289,7 +290,7 @@ app.post('/tasks/:id', async (req, res) => {
 
         const task = await Task.updateOne(
             
-            { _id: req.body._id },
+            { _id: req.params.id },
             {
                 $set:
                 {
@@ -305,7 +306,8 @@ app.post('/tasks/:id', async (req, res) => {
                     address: req.body.address,
                     postedBy: req.current_user,
                     // allocatedTo: req.current_user, <-- use when a user accepts to undertake a task
-                    status: req.body.status,gpsLocation: {
+                    status: req.body.status,
+                    gpsLocation: {
                         type: 'Point', 
                         coordinates: [151.2897453839399, -33.751579477531436]
                         
@@ -313,7 +315,8 @@ app.post('/tasks/:id', async (req, res) => {
                 }
             },
         );
-
+        res.json(task);
+        
     } catch( err ){
 
         console.error('Error loading task:', err);
@@ -343,6 +346,11 @@ app.post('/postTask', async (req, res) => {
         postedBy: req.current_user,
         // allocatedTo: req.current_user, <-- use when a user accepts to undertake a task
         status: req.body.status,
+        gpsLocation: {
+            type: 'Point', 
+            coordinates: [151.28642008151704, -33.79723715378059] 
+        }
+
 
     });
     // const { name, date} = req.body;
